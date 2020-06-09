@@ -10,7 +10,7 @@ class Notify implements \JsonSerializable
     /** @var string */
     public $textBody;
 
-    /** @var string */
+    /** @var */
     public $htmlBody;
 
     /** @var array|null */

@@ -18,7 +18,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group
+     * @return Group|object
      */
     public function get($paramArray)
     {
@@ -42,7 +42,7 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return GroupSearchResult
+     * @return GroupSearchResult|object
      */
     public function getMembers($paramArray)
     {
@@ -62,14 +62,14 @@ class GroupService extends \JiraRestApi\JiraClient
     /**
      * Creates a group by given group parameter.
      *
-     * @param \JiraRestApi\Group\Group $group
+     * @param $group \JiraRestApi\Group\Group
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group
+     * @return Group|object
      */
-    public function createGroup(Group $group)
+    public function createGroup($group)
     {
         $data = json_encode($group);
 
@@ -94,9 +94,9 @@ class GroupService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Group Returns the current state of the group.
+     * @return Group|object Returns the current state of the group.
      */
-    public function addUserToGroup(string $groupName, string $userName)
+    public function addUserToGroup($groupName, $userName)
     {
         $data = json_encode(['name' => $userName]);
 
@@ -115,14 +115,14 @@ class GroupService extends \JiraRestApi\JiraClient
     /**
      * Removes given user from a group.
      *
-     * @param string $groupName
-     * @param string $userName
+     * @param $groupName
+     * @param $userName
      *
      * @throws \JiraRestApi\JiraException
      *
-     * @return string|null Returns no content
+     * @return null Returns no content
      */
-    public function removeUserFromGroup(string $groupName, string $userName)
+    public function removeUserFromGroup($groupName, $userName)
     {
         $param = http_build_query(['groupname' => $groupName, 'username' => $userName]);
 

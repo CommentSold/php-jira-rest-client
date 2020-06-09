@@ -70,26 +70,6 @@ interface ConfigurationInterface
     public function isCurlOptSslVerifyPeer();
 
     /**
-     * @return string
-     */
-    public function isCurlOptSslCert();
-
-    /**
-     * @return string
-     */
-    public function isCurlOptSslCertPassword();
-
-    /**
-     * @return string
-     */
-    public function isCurlOptSslKey();
-
-    /**
-     * @return string
-     */
-    public function isCurlOptSslKeyPassword();
-
-    /**
      * Curl options CURLOPT_VERBOSE.
      *
      * @return bool

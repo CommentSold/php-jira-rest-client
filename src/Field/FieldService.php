@@ -76,7 +76,7 @@ class FieldService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Field created field class
+     * @return Field|object created field class
      */
     public function create(Field $field)
     {

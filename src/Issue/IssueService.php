@@ -3,18 +3,17 @@
 namespace JiraRestApi\Issue;
 
 use JiraRestApi\JiraException;
-use JiraRestApi\Project\ProjectService;
 
 class IssueService extends \JiraRestApi\JiraClient
 {
     private $uri = '/issue';
 
     /**
-     * @param object $json
+     * @param $json
      *
      * @throws \JsonMapper_Exception
      *
-     * @return Issue
+     * @return Issue|object
      */
     public function getIssueFromJSON($json)
     {
@@ -36,7 +35,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Issue class
+     * @return Issue|object class
      */
     public function get($issueIdOrKey, $paramArray = [], $issueObject = null)
     {
@@ -65,7 +64,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Issue created issue key
+     * @return Issue|object created issue key
      */
     public function create($issueField)
     {
@@ -177,9 +176,9 @@ class IssueService extends \JiraRestApi\JiraClient
                 array_push(
                     $attachArr,
                     $this->json_mapper->map(
-                        $ret,
-                        new Attachment()
-                    )
+                    $ret,
+                    new Attachment()
+                )
                 );
             }
         }
@@ -227,7 +226,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment Comment class
+     * @return Comment|object Comment class
      */
     public function addComment($issueIdOrKey, $comment)
     {
@@ -260,7 +259,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment Comment class
+     * @return Comment|object Comment class
      */
     public function updateComment($issueIdOrKey, $id, $comment)
     {
@@ -288,18 +287,17 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @param string|int $issueIdOrKey Issue id or key
      * @param string|int $id           Comment id
-     * @param array      $paramArray   query parameter
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment Comment class
+     * @return Comment|object Comment class
      */
-    public function getComment($issueIdOrKey, $id, array $paramArray = [])
+    public function getComment($issueIdOrKey, $id)
     {
         $this->log->info("getComment=\n");
 
-        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id".$this->toHttpQueryParameter($paramArray));
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment/$id");
 
         $this->log->debug('get comment result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -314,18 +312,17 @@ class IssueService extends \JiraRestApi\JiraClient
      * Get all comments on an issue.
      *
      * @param string|int $issueIdOrKey Issue id or key
-     * @param array      $paramArray   Query Parameter key-value Array.
      *
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Comment Comment class
+     * @return Comment|object Comment class
      */
-    public function getComments($issueIdOrKey, array $paramArray = [])
+    public function getComments($issueIdOrKey)
     {
         $this->log->info("getComments=\n");
 
-        $ret = $this->exec($this->uri.'/'.$issueIdOrKey.'/comment'.$this->toHttpQueryParameter($paramArray), null);
+        $ret = $this->exec($this->uri."/$issueIdOrKey/comment");
 
         $this->log->debug('get comments result='.var_export($ret, true));
         $comment = $this->json_mapper->map(
@@ -482,7 +479,7 @@ class IssueService extends \JiraRestApi\JiraClient
 
             $this->log->debug('getTransitions result='.var_export($ret, true));
 
-            if (strcasecmp($toName, $transitionToName) === 0) {
+            if (strcmp($toName, $transitionToName) == 0) {
                 return $trans->id;
             }
         }
@@ -506,13 +503,7 @@ class IssueService extends \JiraRestApi\JiraClient
         $this->log->debug('transition='.var_export($transition, true));
 
         if (!isset($transition->transition['id'])) {
-            if (isset($transition->transition['untranslatedName'])) {
-                $transition->transition['id'] = $this->findTransitonIdByUntranslatedName($issueIdOrKey, $transition->transition['untranslatedName']);
-            } elseif (isset($transition->transition['name'])) {
-                $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
-            } else {
-                throw new JiraException('you must set either name or untranslatedName for performing transition.');
-            }
+            $transition->transition['id'] = $this->findTransitonId($issueIdOrKey, $transition->transition['name']);
         }
 
         $data = json_encode($transition);
@@ -539,7 +530,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return IssueSearchResult
+     * @return IssueSearchResult|object
      */
     public function search($jql, $startAt = 0, $maxResults = 15, $fields = [], $expand = [], $validateQuery = true)
     {
@@ -632,7 +623,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return PaginatedWorklog
+     * @return PaginatedWorklog|object
      */
     public function getWorklog($issueIdOrKey)
     {
@@ -655,7 +646,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Worklog PaginatedWorklog object
+     * @return Worklog|object PaginatedWorklog object
      */
     public function getWorklogById($issueIdOrKey, $workLogId)
     {
@@ -678,7 +669,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Worklog Worklog Object
+     * @return Worklog|object Worklog Object
      */
     public function addWorklog($issueIdOrKey, $worklog)
     {
@@ -708,7 +699,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Worklog
+     * @return Worklog|object
      */
     public function editWorklog($issueIdOrKey, $worklog, $worklogId)
     {
@@ -779,7 +770,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Priority priority
+     * @return Priority|object priority
      */
     public function getPriority($priorityId)
     {
@@ -804,7 +795,7 @@ class IssueService extends \JiraRestApi\JiraClient
      * @throws JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Priority priority
+     * @return Priority|object priority
      */
     public function getCustomFields($priorityId)
     {
@@ -823,14 +814,13 @@ class IssueService extends \JiraRestApi\JiraClient
     /**
      * get watchers.
      *
-     * @param string $issueIdOrKey
+     * @param $issueIdOrKey
      *
      * @throws JiraException
-     * @throws \JsonMapper_Exception
      *
      * @return Reporter[]
      */
-    public function getWatchers(string $issueIdOrKey)
+    public function getWatchers($issueIdOrKey)
     {
         $this->log->info("getWatchers=\n");
 
@@ -1148,7 +1138,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return bool
+     * @return Issue|object class
      */
     public function updateLabels($issueIdOrKey, $addLablesParam, $removeLabelsParam, $notifyUsers = true)
     {
@@ -1186,7 +1176,7 @@ class IssueService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return bool
+     * @return Issue|object class
      */
     public function updateFixVersions($issueIdOrKey, $addFixVersionsParam, $removeFixVersionsParam, $notifyUsers = true)
     {
@@ -1212,36 +1202,5 @@ class IssueService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri."/$issueIdOrKey".$queryParam, $postData, 'PUT');
 
         return $ret;
-    }
-
-    /**
-     * find transition id by transition's untranslatedName.
-     *
-     * @param string|int $issueIdOrKey
-     * @param string     $untranslatedName
-     *
-     * @throws JiraException
-     *
-     * @return string
-     */
-    public function findTransitonIdByUntranslatedName($issueIdOrKey, $untranslatedName)
-    {
-        $this->log->debug('findTransitonIdByUntranslatedName=');
-
-        $prj = new ProjectService();
-        $pkey = explode('-', $issueIdOrKey);
-        $transitionArray = $prj->getProjectTransitionsToArray($pkey[0]);
-
-        $this->log->debug('getTransitions result='.var_export($transitionArray, true));
-
-        foreach ($transitionArray as $trans) {
-            if (strcasecmp($trans['name'], $untranslatedName) === 0 ||
-                strcasecmp($trans['untranslatedName'] ?? '', $untranslatedName) === 0) {
-                return $trans['id'];
-            }
-        }
-
-        // transition keyword not found
-        throw new JiraException("Transition name '$untranslatedName' not found on JIRA Server.");
     }
 }

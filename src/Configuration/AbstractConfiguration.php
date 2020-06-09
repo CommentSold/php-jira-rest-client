@@ -133,18 +133,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
      */
     protected $useV3RestApi;
 
-    /** @var string */
-    protected $curlOptSslCert;
-
-    /** @var string */
-    protected $curlOptSslCertPassword;
-
-    /** @var string */
-    protected $curlOptSslKey;
-
-    /** @var string */
-    protected $curlOptSslKeyPassword;
-
     /**
      * @return string
      */
@@ -210,38 +198,6 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * @return string
-     */
-    public function isCurlOptSslCert()
-    {
-        return $this->curlOptSslCert;
-    }
-
-    /**
-     * @return string
-     */
-    public function isCurlOptSslCertPassword()
-    {
-        return $this->curlOptSslCertPassword;
-    }
-
-    /**
-     * @return string
-     */
-    public function isCurlOptSslKey()
-    {
-        return $this->curlOptSslKey;
-    }
-
-    /**
-     * @return string
-     */
-    public function isCurlOptSslKeyPassword()
-    {
-        return $this->curlOptSslKeyPassword;
-    }
-
-    /**
      * @return bool
      */
     public function isCurlOptVerbose()
@@ -268,7 +224,7 @@ abstract class AbstractConfiguration implements ConfigurationInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
     public function isCookieAuthorizationEnabled()
     {

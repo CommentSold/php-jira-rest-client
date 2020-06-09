@@ -37,20 +37,6 @@ class Transition implements \JsonSerializable
         $this->transition['name'] = $name;
     }
 
-    /**
-     * set none translated transition name.
-     *
-     * @param string $untranslatedName
-     */
-    public function setUntranslatedName(string $untranslatedName)
-    {
-        if (is_null($this->transition)) {
-            $this->transition = [];
-        }
-
-        $this->transition['untranslatedName'] = $untranslatedName;
-    }
-
     public function setTransitionId($id)
     {
         if (is_null($this->transition)) {

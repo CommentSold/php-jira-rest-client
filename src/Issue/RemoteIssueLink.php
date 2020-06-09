@@ -27,15 +27,10 @@ class RemoteIssueLink implements \JsonSerializable
         return array_filter(get_object_vars($this));
     }
 
-    /**
-     * @param string $url
-     *
-     * @return $this
-     */
-    public function setUrl(string $url)
+    public function setUrl($url)
     {
         if (is_null($this->object)) {
-            $this->object = new RemoteIssueLinkObject();
+            $this->object = new self();
         }
 
         $this->object->url = $url;

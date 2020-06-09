@@ -329,20 +329,20 @@ class IssueField implements \JsonSerializable
     /**
      * add a Affects version.
      *
-     * @param string|array $version mixed string or array
+     * @param mixed string or array $name
      *
      * @return $this
      */
-    public function addVersion($version)
+    public function addVersion($name)
     {
         if (is_null($this->versions)) {
             $this->versions = [];
         }
 
-        if (is_string($version)) {
-            array_push($this->versions, new Version($version));
-        } elseif (is_array($version)) {
-            foreach ($version as $v) {
+        if (is_string($name)) {
+            array_push($this->versions, new Version($name));
+        } elseif (is_array($name)) {
+            foreach ($name as $v) {
                 array_push($this->versions, new Version($v));
             }
         }
@@ -371,20 +371,20 @@ class IssueField implements \JsonSerializable
     /**
      * set issue type.
      *
-     * @param IssueType $issueType mixed IssueType or string
+     * @param mixed IssueType or string $name
      *
      * @return $this
      */
-    public function setIssueType($issueType)
+    public function setIssueType($name)
     {
-        if (is_string($issueType)) {
+        if (is_string($name)) {
             if (is_null($this->issuetype)) {
                 $this->issuetype = new IssueType();
             }
 
-            $this->issuetype->name = $issueType;
+            $this->issuetype->name = $name;
         } else {
-            $this->issuetype = $issueType;
+            $this->issuetype = $name;
         }
 
         return $this;
@@ -419,7 +419,7 @@ class IssueField implements \JsonSerializable
     /**
      * add issue component.
      *
-     * @param string|array $component mixed string or array
+     * @param mixed string or array $component
      *
      * @return $this
      */

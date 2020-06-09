@@ -12,12 +12,12 @@ class AuthService extends \JiraRestApi\JiraClient
     private $uri = 'session';
 
     /**
-     * @var string|null
+     * @var string
      */
     private $_sessionCookieName;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $_sessionCookieValue;
 
@@ -95,7 +95,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return CurrentUser
+     * @return CurrentUser|object
      */
     public function getCurrentUser()
     {
@@ -140,7 +140,7 @@ class AuthService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return AuthSession
+     * @return AuthSession|object
      */
     public function login($username = null, $password = null)
     {

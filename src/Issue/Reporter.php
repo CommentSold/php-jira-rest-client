@@ -11,7 +11,7 @@ class Reporter implements \JsonSerializable
     /** @var string */
     public $self;
 
-    /** @var string|null */
+    /** @var string */
     public $name;
 
     /** @var string */
@@ -26,7 +26,7 @@ class Reporter implements \JsonSerializable
     /** @var string */
     public $active;
 
-    /** @var bool want assignee to unassigned */
+    // want assignee to unassigned
     private $wantUnassigned = false;
 
     /** @var string */
@@ -82,9 +82,9 @@ class Reporter implements \JsonSerializable
     }
 
     /**
-     * @param bool $param boolean
+     * @param $param boolean
      */
-    public function setWantUnassigned(bool $param)
+    public function setWantUnassigned($param)
     {
         $this->wantUnassigned = $param;
         $this->name = null;

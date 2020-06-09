@@ -42,7 +42,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return Project
+     * @return Project|object
      */
     public function get($projectIdOrKey)
     {
@@ -62,7 +62,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * get assignable Users for a given project.
      * throws HTTPException if the project is not found, or the calling user does not have permission or view it.
      *
-     * @param string|int $projectIdOrKey Project Key
+     * @param string|int projectIdOrKey Project Key
      *
      * @throws \JiraRestApi\JiraException
      *
@@ -98,40 +98,6 @@ class ProjectService extends \JiraRestApi\JiraClient
     }
 
     /**
-     * make transition info array for project issue transition.
-     *
-     * @param string|int $projectIdOrKey
-     *
-     * @throws JiraException
-     *
-     * @return array
-     * @return array
-     */
-    public function getProjectTransitionsToArray($projectIdOrKey)
-    {
-        $ret = $this->exec($this->uri."/$projectIdOrKey/statuses", null);
-        $json = json_decode($ret);
-        $results = array_map(function ($elem) {
-            return $this->json_mapper->map($elem, new IssueType());
-        }, $json);
-
-        $transitions = [];
-        foreach ($results as $issueType) {
-            foreach ($issueType->statuses as $status) {
-                if (!in_array($status->id, array_column($transitions, 'id'))) {
-                    $transitions[] = [
-                        'id'               => $status->id,
-                        'name'             => $status->name,
-                        'untranslatedName' => $status->untranslatedName ?? $status->name,
-                    ];
-                }
-            }
-        }
-
-        return $transitions;
-    }
-
-    /**
      * @throws \JiraRestApi\JiraException
      *
      * @return ProjectType[]
@@ -156,7 +122,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return ProjectType
+     * @return ProjectType|object
      */
     public function getProjectType($key)
     {
@@ -178,7 +144,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return ProjectType
+     * @return ProjectType|object
      */
     public function getAccessibleProjectType($key)
     {
@@ -344,7 +310,7 @@ class ProjectService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return string response status
+     * @return int response status
      *
      * STATUS 401 Returned if the user is not logged in.
      * STATUS 204 - application/json Returned if the project is successfully deleted.

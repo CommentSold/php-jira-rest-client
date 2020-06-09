@@ -29,10 +29,6 @@ class DotEnvConfiguration extends AbstractConfiguration
         $this->jiraLogLevel = $this->env('JIRA_LOG_LEVEL', 'WARNING');
         $this->curlOptSslVerifyHost = $this->env('CURLOPT_SSL_VERIFYHOST', false);
         $this->curlOptSslVerifyPeer = $this->env('CURLOPT_SSL_VERIFYPEER', false);
-        $this->curlOptSslCert = $this->env('CURLOPT_SSL_CERT');
-        $this->curlOptSslCertPassword = $this->env('CURLOPT_SSL_CERT_PASSWORD');
-        $this->curlOptSslKey = $this->env('CURLOPT_SSL_KEY');
-        $this->curlOptSslKeyPassword = $this->env('CURLOPT_SSL_KEY_PASSWORD');
         $this->curlOptUserAgent = $this->env('CURLOPT_USERAGENT', $this->getDefaultUserAgentString());
         $this->curlOptVerbose = $this->env('CURLOPT_VERBOSE', false);
         $this->proxyServer = $this->env('PROXY_SERVER');
@@ -125,11 +121,11 @@ class DotEnvConfiguration extends AbstractConfiguration
     /**
      * load dotenv.
      *
-     * @param string $path
+     * @param $path
      *
      * @throws JiraException
      */
-    private function loadDotEnv(string $path)
+    private function loadDotEnv($path)
     {
         $requireParam = [
             'JIRA_HOST', 'JIRA_USER', 'JIRA_PASS',

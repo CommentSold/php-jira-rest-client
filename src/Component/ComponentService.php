@@ -35,7 +35,7 @@ class ComponentService extends \JiraRestApi\JiraClient
     /**
      * get component.
      *
-     * @param string|int $id component id
+     * @param $id component id
      *
      * @return Component
      */
@@ -79,7 +79,7 @@ class ComponentService extends \JiraRestApi\JiraClient
      *
      * @throws JiraException
      *
-     * @return string
+     * @return bool
      */
     public function delete(Component $component, $moveIssuesTo = false)
     {

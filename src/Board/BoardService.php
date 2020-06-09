@@ -30,13 +30,13 @@ class BoardService extends \JiraRestApi\JiraClient
      *
      * @return \ArrayObject|Board[]|null array of Board class
      */
-    public function getBoardList($paramArray = []): ?\ArrayObject
+    public function getBoardList($paramArray = [])
     {
         $json = $this->exec($this->uri.$this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, $this->getJsonOptions())->values,
+                json_decode($json, false, 512, 1)->values,
                 new \ArrayObject(),
                 Board::class
             );
@@ -47,13 +47,13 @@ class BoardService extends \JiraRestApi\JiraClient
         }
     }
 
-    public function getBoard($id, $paramArray = []): ?Board
+    public function getBoard($id, $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$id.$this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->map(
-                json_decode($json, false, 512, $this->getJsonOptions()),
+                json_decode($json, false, 512, 1),
                 new Board()
             );
         } catch (\JsonException $exception) {
@@ -66,33 +66,13 @@ class BoardService extends \JiraRestApi\JiraClient
     /**
      * @return \ArrayObject|AgileIssue[]|null
      */
-    public function getBoardIssues($id, $paramArray = []): ?\ArrayObject
+    public function getBoardIssues($id, $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$id.'/issue'.$this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, $this->getJsonOptions())->issues,
-                new \ArrayObject(),
-                AgileIssue::class
-            );
-        } catch (\JsonException $exception) {
-            $this->log->error("Response cannot be decoded from json\nException: {$exception->getMessage()}");
-
-            return null;
-        }
-    }
-
-    /**
-     * @return \ArrayObject|AgileIssue[]|null
-     */
-    public function getBoardBacklogIssues($id, array $paramArray = []): ?\ArrayObject
-    {
-        $json = $this->exec($this->uri.'/'.$id.'/backlog'.$this->toHttpQueryParameter($paramArray), null);
-
-        try {
-            return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, $this->getJsonOptions())->issues,
+                json_decode($json, false, 512, 1)->issues,
                 new \ArrayObject(),
                 AgileIssue::class
             );
@@ -106,13 +86,13 @@ class BoardService extends \JiraRestApi\JiraClient
     /**
      * @return \ArrayObject|Sprint[]|null
      */
-    public function getBoardSprints($boardId, $paramArray = []): ?\ArrayObject
+    public function getBoardSprints($boardId, $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$boardId.'/sprint'.$this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, $this->getJsonOptions())->values,
+                json_decode($json, false, 512, 1)->values,
                 new \ArrayObject(),
                 Sprint::class
             );
@@ -126,13 +106,13 @@ class BoardService extends \JiraRestApi\JiraClient
     /**
      * @return \ArrayObject|Epic[]|null
      */
-    public function getBoardEpics($boardId, $paramArray = []): ?\ArrayObject
+    public function getBoardEpics($boardId, $paramArray = [])
     {
         $json = $this->exec($this->uri.'/'.$boardId.'/epic'.$this->toHttpQueryParameter($paramArray), null);
 
         try {
             return $this->json_mapper->mapArray(
-                json_decode($json, false, 512, $this->getJsonOptions())->values,
+                json_decode($json, false, 512, 1)->values,
                 new \ArrayObject(),
                 Epic::class
             );

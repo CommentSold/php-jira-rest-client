@@ -17,7 +17,7 @@ class PriorityService extends \JiraRestApi\JiraClient
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return array Priority class
+     * @return Priority|object Priority class
      */
     public function getAll()
     {
@@ -38,12 +38,12 @@ class PriorityService extends \JiraRestApi\JiraClient
     /**
      *  get specific priority info.
      *
-     * @param string|int $priorityId priority id
+     * @param $priorityId priority id
      *
      * @throws \JiraRestApi\JiraException
      * @throws \JsonMapper_Exception
      *
-     * @return \JiraRestApi\Issue\Priority
+     * @return \JiraRestApi\Priority\Priority
      */
     public function get($priorityId)
     {
